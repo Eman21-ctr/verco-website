@@ -3,17 +3,36 @@ const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
 
 if (menuToggle) {
-    menuToggle.addEventListener('click', () => {
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         navLinks.classList.toggle('active');
         menuToggle.classList.toggle('active');
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
     });
 }
 
-// Close menu when clicking a link
+// Close menu when clicking a link or outside (on the background overlay)
+document.addEventListener('click', (e) => {
+    const isActive = navLinks.classList.contains('active');
+    const isClickInside = navLinks.contains(e.target) || menuToggle.contains(e.target);
+
+    if (isActive && !isClickInside) {
+        navLinks.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.style.overflow = '';
+    } else if (isActive && e.target === navLinks) {
+        // This handles cases where the user clicks on the menu container itself (the background)
+        navLinks.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});
+
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         navLinks.classList.remove('active');
         menuToggle.classList.remove('active');
+        document.body.style.overflow = '';
     });
 });
 

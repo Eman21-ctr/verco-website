@@ -221,15 +221,38 @@ h4 {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .bar {
     display: block;
     width: 25px;
-    height: 3px;
+    height: 2px;
     background: white;
-    margin: 5px 0;
+    margin: 3px 0;
     transition: 0.4s;
+    border-radius: 2px;
+}
+
+/* Hamburger to X Animation */
+.menu-toggle.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
 }
 
 /* Hero */
@@ -753,25 +776,34 @@ h4 {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
     .nav-links {
         position: fixed;
         right: -100%;
-        top: 73px;
+        top: 0;
+        height: 100vh;
         flex-direction: column;
+        justify-content: center;
         background: var(--bg-primary);
         width: 100%;
         text-align: center;
-        transition: 0.3s;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 4rem 0;
-        border-bottom: 1px solid var(--border);
+        border-bottom: none;
+        z-index: 1000;
+        gap: 2.5rem;
     }
 
     .nav-links.active {
         right: 0;
     }
 
-    .menu-toggle {
-        display: block;
+    .nav-links a {
+        font-size: 1.25rem;
+        font-weight: 500;
     }
 
     .footer-grid {
